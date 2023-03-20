@@ -4,6 +4,7 @@ class LeafletMap {
             parentElement: _config.parentElement,
         }
         this.data = _data;
+        this.radiusSize = 5;
         this.initVis();
     }
 
@@ -39,19 +40,19 @@ class LeafletMap {
         //Leaflet has to take control of projecting points. Here we are feeding the latitude and longitude coordinates to
         //leaflet so that it can project them on the coordinates of the view. Notice, we have to reverse lat and lon.
         //Finally, the returned conversion produces an x and y point. We have to select the the desired one using .x or .y
-        // .attr("cx", d => vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).x)
-            .attr("cx", function(d) {
-                let xVal = vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).x;
-                console.log("xval:", xVal);
+            .attr("cx", d => vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).x)
+        // .attr("cx", function(d) {
+        //     let xVal = vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).x;
+        //     console.log("xval:", xVal);
 
-                return xVal;
-            })
+        //     return xVal;
+        // })
             .attr("cy", d => vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).y)
-            .attr("r", 3)
-            .on('mouseover', function(event,d) { //function to add mouseover event
-                d3.select(this).transition() //D3 selects the object we have moused over in order to perform operations on it
-                    .duration('150') //how long we are transitioning between the two states (works like keyframes)
-                    .attr("fill", "red") //change the fill
+            .attr("r", vis.radiusSize)
+            .on('mouseover', function(event,d) {  // function to add mouseover event
+                d3.select(this).transition()  // D3 selects the object we have moused over in order to perform operations on it
+                    .duration('150')  // how long we are transitioning between the two states (works like keyframes)
+                    .attr("fill", "red")  // change the fill
                     .attr('r', 4); //change radius
 
                 //create a tool tip
@@ -64,6 +65,7 @@ class LeafletMap {
 
             })
             .on('mousemove', (event) => {
+                console.log("mousemove!!");
                 //position the tooltip
                 d3.select('#tooltip')
                     .style('left', (event.pageX + 10) + 'px')
@@ -73,7 +75,7 @@ class LeafletMap {
                 d3.select(this).transition() //D3 selects the object we have moused over in order to perform operations on it
                     .duration('150') //how long we are transitioning between the two states (works like keyframes)
                     .attr("fill", "steelblue") //change the fill
-                    .attr('r', 3) //change radius
+                    .attr('r', vis.radiusSize + 1) //change radius
 
                 d3.select('#tooltip').style('opacity', 0);  // turn off the tooltip
             });
@@ -92,7 +94,7 @@ class LeafletMap {
         // console.log(vis.map.getZoom()); //how zoomed am I
 
         //want to control the size of the radius to be a certain number of meters?
-        vis.radiusSize = 3;
+        // vis.radiusSize = 7;
 
         // if ( vis.theMap.getZoom > 15 ) {
         //   metresPerPixel = 40075016.686 * Math.abs(Math.cos(map.getCenter().lat * Math.PI/180)) / Math.pow(2, map.getZoom()+8);
