@@ -33,7 +33,8 @@ class LeafletMap {
         vis.svg = vis.overlay.select('svg').attr("pointer-events", "auto");
 
         vis.Dots = vis.svg.selectAll('circle')
-            .data(vis.data) 
+            // .data(vis.data) 
+            .data(vis.data.filter(function(d) {return !isNaN(d.latitude) && !isNaN(d.longitude);}))
             .join('circle')
             .attr("fill", "steelblue") 
             .attr("stroke", "black")

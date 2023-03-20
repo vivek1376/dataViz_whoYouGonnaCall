@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    d3.tsv('../data/Cincy311_2022_final.test.tsv')
+    d3.tsv('../data/Cincy311_2022_final.tsv')
         .then(data => {
             console.log(data[0]);
             console.log(data.length);
