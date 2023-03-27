@@ -42,13 +42,22 @@
 <!--   ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview') -->
 <!-- </script> -->
 
-        <div id="my-map"></div>
+        <div id="my-map">
+        </div>
+        <div id="map-controls">
+            <span>Color by</span>
+            <button type="button" class="calltype">Call type</button>
+            <button type="button" class="processingtype">Processing type</button>
+            <button type="button" class="calldate">Call date</button>
+            <button type="button" class="agency">Responding agency</button>
+        </div>
         <div id="tooltip"></div>
 
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
                 integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
                 crossorigin=""></script>
+        <script src="js/dict_serviceNames.js"></script>
         <script src="js/leafletmap.js"></script>
         <script src="js/script.js"></script>
     </body>

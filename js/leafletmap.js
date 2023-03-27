@@ -2,12 +2,40 @@ class LeafletMap {
     constructor(_config, _data) {
         this.config = {
             parentElement: _config.parentElement,
-        }
+        };
+
         this.data = _data;
         this.radiusSize = 5;
+
+        this.serviceCategories = {
+            "animal": "animal",
+            "trash": "trash",
+            "pest": "pests",
+            "school": "school",
+            "vehicle": "vehicle",
+            "public_amenities": "public amenities",
+            "streets": "streets",
+            "hotel": "hotel",
+            "building": "building",
+            "construction": "construction",
+            "food": "food",
+            "parks": "parks",
+            "parking": "parking",
+            "others": "others"
+        };
+
+        this.colorScale = d3.scaleOrdinal()
+            .domain(Object.keys(this.serviceCategories))
+            .range(['#00429d', '#205eab', '#347bb8', '#4998c5', '#61b5d0', '#81d2db', '#adede2', '#ffdac4', '#ffb3a7', '#fb8a8c', '#eb6574', '#d5405e', '#b81b4a', '#93003a']);
+
+        this.serviceNameCategoryMapping = dict_serviceNames;
+
         this.initVis();
     }
 
+    changeColorMapping() {
+        console.log("color mapping changed");
+    }
 
     initVis() {
         let vis = this;
@@ -36,18 +64,33 @@ class LeafletMap {
             // .data(vis.data) 
             .data(vis.data.filter(function(d) {return !isNaN(d.latitude) && !isNaN(d.longitude);}))
             .join('circle')
-            .attr("fill", "steelblue") 
+            .attr("fill", function(d) {
+                // return vis.colorScale(vis.serviceNamesMapping(d.SERVICE_NAME));
+                console.log("service_name:", d.SERVICE_NAME);
+                let category;
+
+                let st = d.SERVICE_NAME.replace(/^"+/, "").replace(/"+$/, "");
+
+                if (!st) {
+                    category = "others";
+                } else {
+                    category = vis.serviceNameCategoryMapping[st];
+
+                    // TODO check if truthy check okay, or just check for "undefined" ?
+                    if (!category) category = "others";
+                }
+
+                let catColor = vis.colorScale(category);
+                console.log("catcolor:", catColor);
+
+                return catColor;
+                // return "steelblue";
+            })
             .attr("stroke", "black")
         //Leaflet has to take control of projecting points. Here we are feeding the latitude and longitude coordinates to
         //leaflet so that it can project them on the coordinates of the view. Notice, we have to reverse lat and lon.
         //Finally, the returned conversion produces an x and y point. We have to select the the desired one using .x or .y
             .attr("cx", d => vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).x)
-        // .attr("cx", function(d) {
-        //     let xVal = vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).x;
-        //     console.log("xval:", xVal);
-
-        //     return xVal;
-        // })
             .attr("cy", d => vis.theMap.latLngToLayerPoint([d.latitude, d.longitude]).y)
             .attr("r", vis.radiusSize)
             .on('mouseover', function(event,d) {  // function to add mouseover event
