@@ -18,23 +18,29 @@ document.addEventListener("DOMContentLoaded", function() {
             var leafletMap = new LeafletMap({ parentElement: '#my-map'}, data);
 
             document.querySelector('button.calltype').addEventListener("click", function (ev) {
-                console.log("button clicked: ", ev);
-                leafletMap.changeColorMapping("calltype");
+                leafletMap.whichScale = "serviceName";
+                leafletMap.updateVis();
+
+                console.log("servicename button clicked: ", ev);
+                // leafletMap.changeColorMapping("calltype");
             });
 
-            document.querySelector('button.processingtype').addEventListener("click", function (ev) {
-                console.log("button clicked: ", ev);
-                leafletMap.changeColorMapping("calltype");
+            document.querySelector('button.elapseddays').addEventListener("click", function (ev) {
+                leafletMap.whichScale = "daysElapsed";
+                leafletMap.updateVis();
+
+                console.log("dayselapsed button clicked: ", ev);
+                // leafletMap.changeColorMapping("calltype");
             });
 
             document.querySelector('button.calldate').addEventListener("click", function (ev) {
                 console.log("button clicked: ", ev);
-                leafletMap.changeColorMapping("calltype");
+                // leafletMap.changeColorMapping("calltype");
             });
 
             document.querySelector('button.agency').addEventListener("click", function (ev) {
                 console.log("button clicked: ", ev);
-                leafletMap.changeColorMapping("calltype");
+                // leafletMap.changeColorMapping("calltype");
             });
 
         })

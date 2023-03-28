@@ -24,7 +24,7 @@ class LeafletMap {
             "others": "others"
         };
 
-        this.whichScale = "dayselapsed";
+        this.whichScale = "daysElapsed";
 
         this.colorScale = d3.scaleOrdinal()
             .domain(Object.keys(this.serviceCategories))
@@ -124,7 +124,7 @@ class LeafletMap {
 
     getFillColor(d, vis) {
 
-        if (vis.whichScale === "dayselapsed") {
+        if (vis.whichScale === "daysElapsed") {
             const startDate = new Date("2022-01-01");
             const requestedDate = new Date(d.REQUESTED_DATETIME);
             const updatedDate = new Date(d.UPDATED_DATETIME);
