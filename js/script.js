@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             console.log(data[0]);
             console.log(data.length);
+            console.log("datetime:", data[0].REQUESTED_DATETIME);
             data.forEach(d => {
                 // console.log(d);
                 d.latitude = +d.LATITUDE;  // make sure these are not strings
