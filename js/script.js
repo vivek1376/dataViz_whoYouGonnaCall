@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    d3.tsv('../data/cincy_311_2022.cleaned.chunk.tsv')
-    // d3.tsv('../data/Cincy311_2022_final.chunk.tsv')
+    d3.tsv('../data/cincy_311_2022.cleaned.chunk.randsample.tsv')
+    // d3.tsv('../data/cincy_311_2022.cleaned.tsv')
         .then(data => {
             console.log(data[0]);
             console.log(data.length);
@@ -34,11 +34,16 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             document.querySelector('button.calldate').addEventListener("click", function (ev) {
+                leafletMap.whichScale = "whenCallPlaced";
+                leafletMap.updateVis();
+
                 console.log("button clicked: ", ev);
                 // leafletMap.changeColorMapping("calltype");
             });
 
             document.querySelector('button.agency').addEventListener("click", function (ev) {
+                leafletMap.whichScale = "respondingAgency";
+                leafletMap.updateVis();
                 console.log("button clicked: ", ev);
                 // leafletMap.changeColorMapping("calltype");
             });
